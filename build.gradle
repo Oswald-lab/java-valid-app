@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.octiq.test'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'com.octiq.test.app.Main'
+}
+
+// Executable-jar manifest entry (scenario: Gradle project with Main-Class in manifest)
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.octiq.test.app.Main',
+            'Implementation-Title': rootProject.name,
+            'Implementation-Version': project.version
+        )
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
